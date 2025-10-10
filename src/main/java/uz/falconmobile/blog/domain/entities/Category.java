@@ -3,6 +3,7 @@ package uz.falconmobile.blog.domain.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -20,6 +21,13 @@ public class Category {
     @Column(name="id")
     private UUID id;
 
+
+    @Column(nullable = false,unique = true)
+    private String name;
+
+    @OneToMany(mappedBy = "category")
+    private ArrayList<Post> posts=new  ArrayList<>();
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
@@ -32,7 +40,5 @@ public class Category {
         return Objects.hash(id, name);
     }
 
-    @Column(nullable = false,unique = true)
-    private String name;
 
 }

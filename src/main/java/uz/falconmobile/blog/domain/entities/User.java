@@ -4,11 +4,12 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Table(name="users")
+@Table(name = "users")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -16,20 +17,25 @@ import java.util.UUID;
 @Builder
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID )
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @Column(nullable = false, unique = true)
-    private  String email;
+    private String email;
 
     @Column(nullable = false)
-    private  String password;
+    private String password;
 
     @Column(nullable = false)
-    private  String name;
+    private String name;
+
+    @OneToMany(mappedBy = "author" , cascade = CascadeType.ALL, orphanRemoval = true)
+    private ArrayList<Post> posts = new ArrayList<>();
+
 
     @Column(nullable = false)
     private LocalDateTime createdAt;
+
 
     @Override
     public boolean equals(Object o) {
@@ -44,7 +50,7 @@ public class User {
     }
 
     @PrePersist
-    protected  void onCreate() {
+    protected void onCreate() {
         this.createdAt = LocalDateTime.now();
 
     }

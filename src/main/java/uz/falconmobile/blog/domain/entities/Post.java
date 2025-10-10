@@ -6,7 +6,9 @@ import lombok.*;
 import uz.falconmobile.blog.domain.PostStatus;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -36,8 +38,27 @@ public class Post {
     @Column(nullable = false)
     private Integer readingTime;
 
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "author_id" , nullable = false )
+    private  User author;
+
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id" , nullable = false )
+    private  Category category;
+
     @Column(nullable = false)
     private LocalDateTime createdAt;
+    
+    @ManyToMany
+    @JoinTable(
+            name = "post_tags",
+            joinColumns = @JoinColumn(),
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    private Set<Tag> tags = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {
