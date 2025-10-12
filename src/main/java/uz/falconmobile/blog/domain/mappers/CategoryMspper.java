@@ -6,6 +6,7 @@ import org.mapstruct.Named;
 import org.mapstruct.ReportingPolicy;
 import uz.falconmobile.blog.domain.PostStatus;
 import uz.falconmobile.blog.domain.dtos.CategoryDto;
+import uz.falconmobile.blog.domain.dtos.CreateCategoryRequest;
 import uz.falconmobile.blog.domain.entities.Category;
 import uz.falconmobile.blog.domain.entities.Post;
 
@@ -16,6 +17,8 @@ public interface CategoryMspper {
 
     @Mapping(target = "postCount" , source = "posts" , qualifiedByName = "calculatePostCount ")
     CategoryDto toDto(Category category);
+
+    Category toEntity(CreateCategoryRequest createCategoryRequest);
 
     @Named("calculatePostCount ")
     default long calculatePostCount (List<Post> posts){
