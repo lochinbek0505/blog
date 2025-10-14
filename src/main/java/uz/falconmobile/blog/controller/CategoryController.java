@@ -14,6 +14,7 @@ import uz.falconmobile.blog.domain.mappers.CategoryMspper;
 import uz.falconmobile.blog.services.CategoryService;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(path = "/api/v1/categories")
@@ -45,6 +46,12 @@ public class CategoryController {
         );
 
 
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteCategory(@PathVariable UUID id) {
+        categoryService.deleteCategory(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }

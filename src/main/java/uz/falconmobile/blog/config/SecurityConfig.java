@@ -1,4 +1,4 @@
-package uz.falconmobile.blog; // o'z paket nomingizga moslang
+package uz.falconmobile.blog.config; // o'z paket nomingizga moslang
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

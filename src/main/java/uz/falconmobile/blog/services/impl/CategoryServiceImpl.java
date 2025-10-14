@@ -9,6 +9,8 @@ import uz.falconmobile.blog.repositories.CategoryRepository;
 import uz.falconmobile.blog.services.CategoryService;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -29,5 +31,19 @@ public class CategoryServiceImpl implements CategoryService {
         }else{
             return  categoryRepository.save(category);
         }
+    }
+
+    @Override
+    public void deleteCategory(UUID id) {
+
+        Optional<Category> category = categoryRepository.findById(id);
+
+        if (category.isPresent()){
+            if(category.get().getPosts().size() > 0){
+                throw new IllegalStateException("Category has  posts associated with it");
+            }
+            categoryRepository.delete(category.get());
+        }
+
     }
 }
