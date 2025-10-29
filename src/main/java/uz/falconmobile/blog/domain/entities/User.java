@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -30,7 +31,7 @@ public class User {
     private String name;
 
     @OneToMany(mappedBy = "author" , cascade = CascadeType.ALL, orphanRemoval = true)
-    private ArrayList<Post> posts = new ArrayList<>();
+    private List<Post> posts = new ArrayList<>();
 
 
     @Column(nullable = false)

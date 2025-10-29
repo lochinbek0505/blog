@@ -14,7 +14,7 @@ import uz.falconmobile.blog.domain.dtos.LoginRequest;
 import uz.falconmobile.blog.services.AuthanticationService;
 
 @RestController
-@RequestMapping("v1/api/auth")
+@RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 public class AuthController {
 
