@@ -12,6 +12,7 @@ import uz.falconmobile.blog.domain.mappers.TagMapper;
 import uz.falconmobile.blog.services.TagService;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(path = "/api/v1/tags")
@@ -40,5 +41,9 @@ public class TagController {
 
         return new  ResponseEntity<>(createdTagResponse, HttpStatus.CREATED);
     }
-
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<Void> deleteTag(@PathVariable UUID id){
+        tagService.deleteTags(id);
+        return  ResponseEntity.noContent().build();
+    }
 }

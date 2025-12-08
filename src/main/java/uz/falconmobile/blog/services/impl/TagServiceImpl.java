@@ -7,10 +7,7 @@ import uz.falconmobile.blog.domain.entities.Tag;
 import uz.falconmobile.blog.repositories.TagRepository;
 import uz.falconmobile.blog.services.TagService;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,5 +37,21 @@ public class TagServiceImpl implements TagService {
 
         savedTags.addAll(exisitTags);
         return savedTags;
+    }
+
+    @Transactional
+    @Override
+    public void deleteTags(UUID id) {
+        tagRepository.findById(id).ifPresent(tag -> {
+           if (tag.getPosts().isEmpty()) {
+           throw new IllegalArgumentException("No posts in this tag");
+           }
+           tagRepository.deleteById(id);
+        });
+    }
+
+    @Override
+    public Tag getTagById(UUID id) {
+        return  tagRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Tag not found with id: " + id));
     }
 }

@@ -1,5 +1,6 @@
 package uz.falconmobile.blog.services.impl;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,10 +27,10 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     @Transactional
     public Category createCategory(Category category) {
-        if(categoryRepository.existsByNameIgnoreCase(category.getName())){
+        if (categoryRepository.existsByNameIgnoreCase(category.getName())) {
             throw new IllegalArgumentException("Category already exists");
-        }else{
-            return  categoryRepository.save(category);
+        } else {
+            return categoryRepository.save(category);
         }
     }
 
@@ -38,12 +39,17 @@ public class CategoryServiceImpl implements CategoryService {
 
         Optional<Category> category = categoryRepository.findById(id);
 
-        if (category.isPresent()){
-            if(category.get().getPosts().size() > 0){
+        if (category.isPresent()) {
+            if (category.get().getPosts().size() > 0) {
                 throw new IllegalStateException("Category has  posts associated with it");
             }
             categoryRepository.delete(category.get());
         }
 
+    }
+
+    @Override
+    public Category getCategoryById(UUID id) {
+        return categoryRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Category id not found " + id));
     }
 }
