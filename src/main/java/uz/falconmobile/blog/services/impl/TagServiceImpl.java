@@ -1,5 +1,6 @@
 package uz.falconmobile.blog.services.impl;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -43,15 +44,24 @@ public class TagServiceImpl implements TagService {
     @Override
     public void deleteTags(UUID id) {
         tagRepository.findById(id).ifPresent(tag -> {
-           if (tag.getPosts().isEmpty()) {
-           throw new IllegalArgumentException("No posts in this tag");
-           }
-           tagRepository.deleteById(id);
+            if (tag.getPosts().isEmpty()) {
+                throw new IllegalArgumentException("No posts in this tag");
+            }
+            tagRepository.deleteById(id);
         });
     }
 
     @Override
     public Tag getTagById(UUID id) {
-        return  tagRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Tag not found with id: " + id));
+        return tagRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Tag not found with id: " + id));
+    }
+
+    @Override
+    public List<Tag> getTagsByIds(Set<UUID> ids) {
+        List<Tag> exisitTags = tagRepository.findAllById(ids);
+        if (exisitTags.size() != ids.size()) {
+            throw new EntityNotFoundException("Not all tags found for the provided IDs");
+        }
+        return  exisitTags;
     }
 }

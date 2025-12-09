@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import uz.falconmobile.blog.domain.PostStatus;
+import uz.falconmobile.blog.domain.entities.Tag;
 
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -20,7 +21,7 @@ public class PostDto {
     private String content;
     private AuthorDto author;
     private CategoryDto category;
-    private Set<TagDto> tags;
+    private Set<Tag> tags;
     private Integer readingTime;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
