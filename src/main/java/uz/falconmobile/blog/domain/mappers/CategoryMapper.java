@@ -13,7 +13,7 @@ import uz.falconmobile.blog.domain.entities.Post;
 import java.util.List;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE )
-public interface CategoryMspper {
+public interface CategoryMapper {
 
     @Mapping(target = "postCount" , source = "posts" , qualifiedByName = "calculatePostCount ")
     CategoryDto toDto(Category category);

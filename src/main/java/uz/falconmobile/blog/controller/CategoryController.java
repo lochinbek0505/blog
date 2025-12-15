@@ -3,14 +3,13 @@ package uz.falconmobile.blog.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.loader.ResourceEntry;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uz.falconmobile.blog.domain.dtos.CategoryDto;
 import uz.falconmobile.blog.domain.dtos.CreateCategoryRequest;
 import uz.falconmobile.blog.domain.entities.Category;
-import uz.falconmobile.blog.domain.mappers.CategoryMspper;
+import uz.falconmobile.blog.domain.mappers.CategoryMapper;
 import uz.falconmobile.blog.services.CategoryService;
 
 import java.util.List;
@@ -22,12 +21,12 @@ import java.util.UUID;
 public class CategoryController {
 
     private final CategoryService categoryService;
-    private final CategoryMspper categoryMspper;
+    private final CategoryMapper categoryMapper;
 
     @GetMapping
     public ResponseEntity<List<CategoryDto>> listCategories() {
 
-        List<CategoryDto> categories = categoryService.listCategories().stream().map(categoryMspper::toDto).toList();
+        List<CategoryDto> categories = categoryService.listCategories().stream().map(categoryMapper::toDto).toList();
 
         return ResponseEntity.ok(categories);
     }
@@ -38,11 +37,11 @@ public class CategoryController {
             CreateCategoryRequest createCategoryRequest)  {
 
 
-        Category category = categoryMspper.toEntity(createCategoryRequest);
+        Category category = categoryMapper.toEntity(createCategoryRequest);
         categoryService.createCategory(category);
 
         return  new ResponseEntity<>(
-                categoryMspper.toDto(category), HttpStatus.CREATED
+                categoryMapper.toDto(category), HttpStatus.CREATED
         );
 
 
